@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Letter</title>
+    <link rel="stylesheet" href="css/letter.css">
+</head>
+<body>
+    <div class="container">
+        <div id="token-validation" class="screen">
+            <h1>Interactive Letter</h1>
+            <p id="token-message">Validating your access token...</p>
+            <div id="token-error" class="hidden">
+                <p>This letter is either invalid or has already been viewed.</p>
+                <p>Please check your URL or contact the sender for a new link.</p>
+            </div>
+        </div>
+        
+        <div id="letter-content" class="screen hidden">
+            <div id="letter-header">
+                <h1 id="letter-title">Interactive Letter</h1>
+                <p id="letter-date"></p>
+            </div>
+            
+            <div id="letter-body">
+                <div id="current-section"></div>
+                
+                <div id="choices-container" class="hidden">
+                    <h3>What would you like to do?</h3>
+                    <div id="choices"></div>
+                </div>
+            </div>
+            
+            <div id="letter-footer">
+                <p id="letter-signature"></p>
+            </div>
+        </div>
+        
+        <div id="letter-complete" class="screen hidden">
+            <h1>Letter Complete</h1>
+            <p>Thank you for reading this interactive letter.</p>
+            <p>Your unique journey through this letter has been recorded.</p>
+            <div id="summary-container">
+                <h2>Your Journey Summary</h2>
+                <div id="summary-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/token-manager.js"></script>
+    <script src="js/summary-generator.js"></script>
+    <script src="js/letter.js"></script>
+</body>
+</html>

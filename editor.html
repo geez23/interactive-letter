@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Letter Editor</title>
+    <link rel="stylesheet" href="css/editor.css">
+    <!-- Rete.js dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/rete@1.4.4/build/rete.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-vue-render-plugin@0.5.1/build/vue-render-plugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-connection-plugin@0.9.0/build/connection-plugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-area-plugin@0.2.1/build/area-plugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rete-context-menu-plugin@0.6.0/build/context-menu-plugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alight@0.14.1/alight.min.js"></script>
+</head>
+<body>
+    <div class="editor-container">
+        <div class="sidebar">
+            <div class="logo">
+                <h1>Letter Editor</h1>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="structure">Structure</button>
+                <button class="tab-btn" data-tab="styling">Styling</button>
+                <button class="tab-btn" data-tab="tokens">Tokens</button>
+                <button class="tab-btn" data-tab="preview">Preview</button>
+            </div>
+            
+            <div class="tab-content active" id="structure-tab">
+                <h2>Letter Structure</h2>
+                <div class="form-group">
+                    <label for="letter-title">Letter Title</label>
+                    <input type="text" id="letter-title" placeholder="Enter letter title">
+                </div>
+                <div class="form-group">
+                    <label for="letter-signature">Signature</label>
+                    <input type="text" id="letter-signature" placeholder="Enter signature">
+                </div>
+                <div class="form-group">
+                    <label for="start-section">Start Section</label>
+                    <select id="start-section">
+                        <option value="">Select start section</option>
+                    </select>
+                </div>
+                <div class="actions">
+                    <button id="add-section-btn" class="btn">Add Section</button>
+                    <button id="save-structure-btn" class="btn primary">Save Structure</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="styling-tab">
+                <h2>Letter Styling</h2>
+                <div class="form-group">
+                    <label for="theme-select">Theme</label>
+                    <select id="theme-select">
+                        <option value="elegant">Elegant</option>
+                        <option value="modern">Modern</option>
+                        <option value="vintage">Vintage</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="text-size">Text Size</label>
+                    <select id="text-size">
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="custom-css">Custom CSS</label>
+                    <textarea id="custom-css" rows="8" placeholder="Enter custom CSS styles"></textarea>
+                </div>
+                <div class="actions">
+                    <button id="save-styling-btn" class="btn primary">Save Styling</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="tokens-tab">
+                <h2>Token Management</h2>
+                <div class="form-group">
+                    <label for="token-letter-name">Letter Name</label>
+                    <input type="text" id="token-letter-name" placeholder="Enter letter name for token">
+                </div>
+                <div class="form-group">
+                    <label for="token-creator">Creator</label>
+                    <input type="text" id="token-creator" placeholder="Enter creator name">
+                </div>
+                <div class="actions">
+                    <button id="generate-token-btn" class="btn primary">Generate Token</button>
+                </div>
+                <div class="token-list-container">
+                    <h3>Existing Tokens</h3>
+                    <div id="token-list" class="token-list">
+                        <!-- Tokens will be listed here -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="preview-tab">
+                <h2>Letter Preview</h2>
+                <div class="form-group">
+                    <label for="preview-token">Select Token</label>
+                    <select id="preview-token">
+                        <option value="">Select a token</option>
+                    </select>
+                </div>
+                <div class="actions">
+                    <button id="open-preview-btn" class="btn primary">Open Preview</button>
+                </div>
+                <div class="preview-info">
+                    <p>Preview opens the letter in a new tab using the selected token.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="editor-main">
+            <div class="editor-header">
+                <div class="editor-title">
+                    <h2>Visual Node Editor</h2>
+                </div>
+                <div class="editor-actions">
+                    <button id="export-json-btn" class="btn">Export JSON</button>
+                    <button id="import-json-btn" class="btn">Import JSON</button>
+                </div>
+            </div>
+            
+            <div class="editor-workspace">
+                <div id="rete" class="node-editor"></div>
+            </div>
+            
+            <div class="section-editor hidden" id="section-editor">
+                <div class="section-editor-header">
+                    <h3>Edit Section</h3>
+                    <button id="close-section-editor" class="btn-icon">×</button>
+                </div>
+                <div class="form-group">
+                    <label for="section-id">Section ID</label>
+                    <input type="text" id="section-id" placeholder="Enter unique section ID">
+                </div>
+                <div class="form-group">
+                    <label for="section-content">Content</label>
+                    <textarea id="section-content" rows="10" placeholder="Enter HTML content for this section"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Is Final Section</label>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="is-final-section">
+                        <label for="is-final-section">This is a final section (no choices)</label>
+                    </div>
+                </div>
+                <div class="choices-editor" id="choices-editor">
+                    <h4>Choices</h4>
+                    <div id="choices-list">
+                        <!-- Choices will be added here -->
+                    </div>
+                    <button id="add-choice-btn" class="btn">Add Choice</button>
+                </div>
+                <div class="actions">
+                    <button id="save-section-btn" class="btn primary">Save Section</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="choice-template">
+        <div class="choice-item">
+            <div class="form-group">
+                <label>Choice Text</label>
+                <input type="text" class="choice-text" placeholder="Enter choice text">
+            </div>
+            <div class="form-group">
+                <label>Next Section</label>
+                <select class="next-section">
+                    <option value="">Select next section</option>
+                </select>
+            </div>
+            <button class="remove-choice-btn btn-icon">×</button>
+        </div>
+    </template>
+
+    <template id="token-item-template">
+        <div class="token-item">
+            <div class="token-info">
+                <div class="token-value"></div>
+                <div class="token-letter-name"></div>
+            </div>
+            <div class="token-actions">
+                <button class="copy-token-btn btn-small">Copy Link</button>
+                <button class="delete-token-btn btn-small danger">Delete</button>
+            </div>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="js/token-manager.js"></script>
+    <script src="js/summary-generator.js"></script>
+    <script src="js/editor.js"></script>
+</body>
+</html>
