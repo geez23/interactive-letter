@@ -1,0 +1,76 @@
+{
+  "title": "Welcome Letter",
+  "signature": "Best regards, Jane Smith",
+  "startSectionId": "welcome",
+  "config": {
+    "theme": "modern",
+    "textSize": "medium"
+  },
+  "sections": {
+    "welcome": {
+      "content": "<p>Dear New Member,</p><p>Welcome to our community! We're thrilled to have you join us. This interactive welcome letter will help you get acquainted with what we offer and how you can make the most of your membership.</p><p>What would you like to know first?</p>",
+      "choices": [
+        {
+          "text": "Tell me about membership benefits",
+          "nextSection": "benefits"
+        },
+        {
+          "text": "I'd like to know about upcoming events",
+          "nextSection": "events"
+        }
+      ]
+    },
+    "benefits": {
+      "content": "<p>As a member, you have access to a wide range of benefits:</p><ul><li>Exclusive content and resources</li><li>Monthly webinars and workshops</li><li>Networking opportunities with industry professionals</li><li>Discounts on premium services</li><li>Early access to new features and tools</li></ul><p>What else would you like to explore?</p>",
+      "choices": [
+        {
+          "text": "Tell me about upcoming events",
+          "nextSection": "events"
+        },
+        {
+          "text": "How can I get involved in the community?",
+          "nextSection": "involvement"
+        }
+      ]
+    },
+    "events": {
+      "content": "<p>We have several exciting events planned for the upcoming months:</p><ul><li><strong>April 15:</strong> Spring Networking Mixer</li><li><strong>May 3-5:</strong> Annual Conference</li><li><strong>June 12:</strong> Professional Development Workshop</li><li><strong>July 20:</strong> Summer Social Gathering</li></ul><p>All events are included in your membership. Registration details will be sent via email two weeks before each event.</p>",
+      "choices": [
+        {
+          "text": "Tell me about membership benefits",
+          "nextSection": "benefits"
+        },
+        {
+          "text": "How can I get involved in the community?",
+          "nextSection": "involvement"
+        }
+      ]
+    },
+    "involvement": {
+      "content": "<p>There are many ways to get involved in our community:</p><ul><li>Join our online forum discussions</li><li>Volunteer for committee positions</li><li>Contribute to our monthly newsletter</li><li>Mentor new members</li><li>Present at one of our knowledge-sharing sessions</li></ul><p>Your participation enriches our community and helps everyone grow professionally.</p>",
+      "choices": [
+        {
+          "text": "I'd like to know about support resources",
+          "nextSection": "support"
+        },
+        {
+          "text": "I'm ready to wrap up this letter",
+          "nextSection": "conclusion"
+        }
+      ]
+    },
+    "support": {
+      "content": "<p>We're here to support your journey:</p><ul><li>Our help desk is available 24/7 at support@example.com</li><li>Monthly orientation sessions for new members</li><li>Comprehensive knowledge base and tutorials</li><li>Dedicated account manager for premium members</li><li>Peer support groups for specific interest areas</li></ul><p>Never hesitate to reach out if you need assistance!</p>",
+      "choices": [
+        {
+          "text": "I'm ready to conclude this letter",
+          "nextSection": "conclusion"
+        }
+      ]
+    },
+    "conclusion": {
+      "content": "<p>Thank you for taking the time to explore this welcome letter. We're excited to have you as part of our community and look forward to seeing you at upcoming events.</p><p>If you have any questions that weren't addressed here, please contact our membership team at members@example.com.</p><p>We're confident that you'll find great value in your membership, and we can't wait to see what you'll accomplish as part of our community.</p>",
+      "isFinal": true
+    }
+  }
+}
