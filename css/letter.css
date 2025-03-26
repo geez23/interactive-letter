@@ -1,0 +1,219 @@
+/* General Styles */
+:root {
+    --primary-color: #4a6fa5;
+    --secondary-color: #166088;
+    --accent-color: #4fc3f7;
+    --text-color: #333;
+    --background-color: #f9f9f9;
+    --paper-color: #fff;
+    --font-main: 'Georgia', serif;
+    --font-secondary: 'Arial', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--paper-color);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    min-height: 80vh;
+    position: relative;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Token Validation Screen */
+#token-validation {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#token-message {
+    margin: 20px 0;
+    font-size: 1.2rem;
+}
+
+#token-error {
+    color: #d32f2f;
+    margin-top: 20px;
+}
+
+/* Letter Content Screen */
+#letter-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+#letter-title {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+#letter-date {
+    font-style: italic;
+    color: #666;
+}
+
+#letter-body {
+    flex-grow: 1;
+    margin-bottom: 30px;
+}
+
+#current-section {
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+#choices-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #ddd;
+}
+
+#choices {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.choice-btn {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-secondary);
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: left;
+}
+
+.choice-btn:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+#letter-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+#letter-signature {
+    font-style: italic;
+    text-align: right;
+    font-size: 1.1rem;
+}
+
+/* Letter Complete Screen */
+#letter-complete {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#summary-container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    text-align: left;
+}
+
+#summary-content {
+    margin-top: 20px;
+}
+
+.summary-section {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #ddd;
+}
+
+.summary-section:last-child {
+    border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    body {
+        padding: 10px;
+    }
+    
+    #letter-title {
+        font-size: 1.5rem;
+    }
+    
+    .choice-btn {
+        padding: 15px;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Custom styling classes that can be applied via the editor */
+.elegant {
+    --font-main: 'Garamond', serif;
+    --primary-color: #3a5683;
+    --paper-color: #fffef7;
+}
+
+.modern {
+    --font-main: 'Helvetica', sans-serif;
+    --primary-color: #2c3e50;
+    --paper-color: #ffffff;
+}
+
+.vintage {
+    --font-main: 'Times New Roman', serif;
+    --paper-color: #f8f3e3;
+    --primary-color: #8b4513;
+}
+
+.text-large {
+    font-size: 1.2rem;
+}
+
+.text-small {
+    font-size: 0.9rem;
+}
