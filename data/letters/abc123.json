@@ -1,0 +1,129 @@
+{
+  "title": "Sample Letter",
+  "signature": "Sincerely, John Doe",
+  "startSectionId": "intro",
+  "config": {
+    "theme": "elegant",
+    "textSize": "large"
+  },
+  "sections": {
+    "intro": {
+      "content": "<p>Dear Reader,</p><p>Welcome to this interactive letter. I'm excited to share this journey with you. As you read through this letter, you'll have the opportunity to make choices that will shape the narrative.</p><p>Let's begin with a simple question...</p>",
+      "choices": [
+        {
+          "text": "Tell me more about yourself",
+          "nextSection": "about_author"
+        },
+        {
+          "text": "I'd like to hear a story",
+          "nextSection": "story_start"
+        }
+      ]
+    },
+    "about_author": {
+      "content": "<p>I'm glad you're interested in learning more about me. I've been writing interactive content for several years now, exploring the boundaries between traditional storytelling and user-driven narratives.</p><p>My background is in creative writing and web development, which gives me a unique perspective on how to blend these two worlds.</p>",
+      "choices": [
+        {
+          "text": "That sounds interesting. Tell me a story now",
+          "nextSection": "story_start"
+        },
+        {
+          "text": "How did you get started with interactive writing?",
+          "nextSection": "writing_background"
+        }
+      ]
+    },
+    "writing_background": {
+      "content": "<p>My journey into interactive writing began when I was creating choose-your-own-adventure books for my younger siblings. I was fascinated by how different readers would make different choices, creating unique experiences from the same starting point.</p><p>As technology evolved, I saw an opportunity to bring this concept to digital platforms, making it more accessible and dynamic.</p>",
+      "choices": [
+        {
+          "text": "I'd like to hear a story now",
+          "nextSection": "story_start"
+        },
+        {
+          "text": "I'm ready to conclude this letter",
+          "nextSection": "conclusion"
+        }
+      ]
+    },
+    "story_start": {
+      "content": "<p>Once upon a time, in a small coastal town, there lived a lighthouse keeper named Marcus. Every night, he would climb the spiral staircase to light the beacon that guided ships safely to harbor.</p><p>One stormy evening, as rain lashed against the windows and thunder shook the sky, Marcus noticed something unusual in the water...</p>",
+      "choices": [
+        {
+          "text": "It was a ship in distress",
+          "nextSection": "ship_distress"
+        },
+        {
+          "text": "It was a mysterious glowing object",
+          "nextSection": "mysterious_object"
+        }
+      ]
+    },
+    "ship_distress": {
+      "content": "<p>Through his telescope, Marcus could see a small fishing vessel being tossed violently by the waves. Its sail was torn, and it was drifting dangerously close to the jagged rocks that lined the shore.</p><p>Without hesitation, Marcus rang the emergency bell to alert the town's rescue team. Despite the dangerous conditions, he knew what he had to do...</p>",
+      "choices": [
+        {
+          "text": "Marcus joined the rescue team",
+          "nextSection": "join_rescue"
+        },
+        {
+          "text": "Marcus stayed to keep the lighthouse beacon burning",
+          "nextSection": "keep_beacon"
+        }
+      ]
+    },
+    "join_rescue": {
+      "content": "<p>Marcus rushed down the lighthouse stairs and joined the rescue team as they launched their sturdy lifeboat into the churning sea. The wind howled and waves crashed over the bow as they rowed toward the stranded vessel.</p><p>After a grueling hour of fighting against the elements, they reached the fishing boat. The family aboard—a father and his two young children—were cold and frightened but unharmed.</p><p>Thanks to Marcus and the rescue team's bravery, all three were safely brought back to shore, where the townspeople had gathered with blankets and hot drinks.</p>",
+      "choices": [
+        {
+          "text": "Continue to the conclusion",
+          "nextSection": "conclusion"
+        }
+      ]
+    },
+    "keep_beacon": {
+      "content": "<p>Marcus knew that his most important duty was to keep the lighthouse beacon burning bright. If it went out, not only would the stranded fishing vessel be in danger, but other ships might also crash upon the rocks.</p><p>He stoked the fire and adjusted the mirrors, ensuring the light cut through the storm with maximum intensity. From his vantage point, he watched as the town's rescue team battled the waves to reach the fishing boat.</p><p>His decision to maintain the beacon proved crucial when a second ship appeared through the mist, guided safely past the treacherous coastline by the unwavering light.</p>",
+      "choices": [
+        {
+          "text": "Continue to the conclusion",
+          "nextSection": "conclusion"
+        }
+      ]
+    },
+    "mysterious_object": {
+      "content": "<p>Peering through the rain-streaked window, Marcus spotted a strange, glowing object bobbing in the waves. It emitted a soft blue light that seemed to pulse with an almost hypnotic rhythm.</p><p>Curiosity overcame his caution. Grabbing his raincoat and lantern, Marcus made his way down to the shore, the wind nearly knocking him off his feet several times.</p>",
+      "choices": [
+        {
+          "text": "Marcus waded into the water to retrieve the object",
+          "nextSection": "retrieve_object"
+        },
+        {
+          "text": "Marcus called for help before investigating",
+          "nextSection": "call_help"
+        }
+      ]
+    },
+    "retrieve_object": {
+      "content": "<p>The water was ice-cold as Marcus waded in, his boots quickly filling with seawater. The mysterious object seemed to respond to his approach, its pulsing glow intensifying.</p><p>When he finally reached it, Marcus discovered a perfectly spherical orb about the size of a grapefruit. It was warm to the touch despite the frigid water, and inscribed with symbols he had never seen before.</p><p>As he lifted it from the water, the storm suddenly calmed, the clouds parted, and moonlight bathed the beach in silver light. Marcus knew he had found something extraordinary—something that would change his life and the town forever.</p>",
+      "choices": [
+        {
+          "text": "Continue to the conclusion",
+          "nextSection": "conclusion"
+        }
+      ]
+    },
+    "call_help": {
+      "content": "<p>Marcus was too experienced with the sea's dangers to act rashly. He hurried back to the lighthouse and rang the bell, summoning several townspeople including Dr. Eleanor, the town's scientist.</p><p>Together, they approached the glowing object, which Dr. Eleanor carefully retrieved using specialized equipment. Back at her laboratory, she identified it as a rare bioluminescent marine organism that had never been documented before.</p><p>The discovery brought researchers from around the world to their small town, and Marcus was credited with finding a species that would later revolutionize medical research due to its unique properties.</p>",
+      "choices": [
+        {
+          "text": "Continue to the conclusion",
+          "nextSection": "conclusion"
+        }
+      ]
+    },
+    "conclusion": {
+      "content": "<p>Thank you for taking the time to read through this interactive letter. Your choices have created a unique journey through the narrative, reflecting your interests and decisions.</p><p>I hope you enjoyed this experience and perhaps gained some insight into how interactive storytelling can create personalized connections between author and reader.</p><p>Until our paths cross again, may your own story be filled with fascinating choices and meaningful adventures.</p>",
+      "isFinal": true
+    }
+  }
+}
