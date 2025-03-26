@@ -7,6 +7,7 @@ let tokenManager = null;
 let currentNodeId = 1;
 let sectionNodes = {};
 let currentEditingNode = null;
+let currentLetterName = '';
 let letterData = {
     title: 'New Interactive Letter',
     signature: '',
@@ -96,6 +97,12 @@ const sockets = {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
+    // Check if we're on the letter selection page
+    if (document.getElementById('letter-selection')) {
+        loadLetterList();
+        return;
+    }
+    
     // Initialize token manager
     tokenManager = new TokenManager();
     
@@ -110,7 +117,152 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Load tokens
     loadTokens();
+    
+    // Check for letter ID in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const letterId = urlParams.get('letter');
+    
+    if (letterId) {
+        loadSpecificLetter(letterId);
+    } else {
+        // Create a new letter with placeholder section
+        createNewLetterWithPlaceholder();
+    }
 });
+
+// Load letter list for selection page
+function loadLetterList() {
+    const letterList = document.getElementById('letter-list');
+    if (!letterList) return;
+    
+    // Clear existing list
+    letterList.innerHTML = '';
+    
+    // Get all saved letters from localStorage
+    const savedLetters = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('letter_')) {
+            try {
+                const letterData = JSON.parse(localStorage.getItem(key));
+                savedLetters.push({
+                    id: key.replace('letter_', ''),
+                    title: letterData.title || 'Untitled Letter',
+                    date: new Date().toLocaleDateString() // In a real app, would store creation date
+                });
+            } catch (error) {
+                console.error('Error parsing letter data:', error);
+            }
+        }
+    }
+    
+    // Add each letter to the list
+    if (savedLetters.length === 0) {
+        letterList.innerHTML = '<div class="empty-state">No letters found. Create a new letter to get started.</div>';
+    } else {
+        savedLetters.forEach(letter => {
+            const letterItem = document.createElement('div');
+            letterItem.className = 'letter-item';
+            letterItem.innerHTML = `
+                <div class="letter-info">
+                    <h3>${letter.title}</h3>
+                    <p>Created: ${letter.date}</p>
+                </div>
+                <div class="letter-actions">
+                    <button class="edit-letter-btn btn-small">Edit</button>
+                    <button class="delete-letter-btn btn-small danger">Delete</button>
+                </div>
+            `;
+            
+            // Set up edit button
+            letterItem.querySelector('.edit-letter-btn').addEventListener('click', () => {
+                window.location.href = `editor.html?letter=${letter.id}`;
+            });
+            
+            // Set up delete button
+            letterItem.querySelector('.delete-letter-btn').addEventListener('click', () => {
+                if (confirm(`Are you sure you want to delete "${letter.title}"?`)) {
+                    localStorage.removeItem(`letter_${letter.id}`);
+                    loadLetterList(); // Reload the list
+                }
+            });
+            
+            letterList.appendChild(letterItem);
+        });
+    }
+    
+    // Set up create new letter button
+    document.getElementById('create-letter-btn').addEventListener('click', () => {
+        window.location.href = 'editor.html';
+    });
+}
+
+// Create a new letter with a placeholder section
+function createNewLetterWithPlaceholder() {
+    // Reset letter data
+    letterData = {
+        title: 'New Interactive Letter',
+        signature: '',
+        startSectionId: 'intro',
+        config: {
+            theme: 'elegant',
+            textSize: 'medium'
+        },
+        sections: {
+            intro: {
+                content: '<p>This is a placeholder section. Edit this content and add choices to create your interactive letter.</p>',
+                choices: []
+            }
+        }
+    };
+    
+    // Update form fields
+    document.getElementById('letter-title').value = letterData.title;
+    document.getElementById('letter-signature').value = letterData.signature;
+    
+    // Create node for placeholder section
+    createNodeForSection('intro');
+    
+    // Update section selects
+    updateSectionSelects();
+}
+
+// Load a specific letter by ID
+function loadSpecificLetter(letterId) {
+    try {
+        const savedData = localStorage.getItem(`letter_${letterId}`);
+        
+        if (savedData) {
+            letterData = JSON.parse(savedData);
+            currentLetterName = letterId;
+            
+            // Update form fields
+            document.getElementById('letter-title').value = letterData.title || '';
+            document.getElementById('letter-signature').value = letterData.signature || '';
+            document.getElementById('theme-select').value = letterData.config?.theme || 'elegant';
+            document.getElementById('text-size').value = letterData.config?.textSize || 'medium';
+            document.getElementById('custom-css').value = letterData.config?.customStyles || '';
+            
+            // Clear editor
+            editor.clear();
+            sectionNodes = {};
+            
+            // Create nodes for sections
+            Object.keys(letterData.sections).forEach(sectionId => {
+                createNodeForSection(sectionId);
+            });
+            
+            // Update section selects
+            updateSectionSelects();
+        } else {
+            // Letter not found, create new one
+            createNewLetterWithPlaceholder();
+        }
+    } catch (error) {
+        console.error('Error loading letter data:', error);
+        createNewLetterWithPlaceholder();
+    }
+}
 
 // Set up tab navigation
 function setupTabs() {
@@ -239,9 +391,6 @@ async function initReteEditor() {
     // Initial editor setup
     editor.view.resize();
     editor.trigger('process');
-    
-    // Load any existing letter data
-    loadLetterData();
 }
 
 // Update connections in letter data based on editor connections
@@ -482,6 +631,9 @@ function saveSection() {
     
     // Close section editor
     closeSectionEditor();
+    
+    // Save letter data
+    saveLetterData();
 }
 
 // Create a node for a section
@@ -555,16 +707,27 @@ function saveLetterStructure() {
         return;
     }
     
-    // Save to localStorage for now
-    localStorage.setItem('letterData', JSON.stringify(letterData));
+    // Save letter data
+    saveLetterData();
     
     alert('Letter structure saved successfully');
 }
 
+// Save letter data
+function saveLetterData() {
+    // Generate a unique ID if this is a new letter
+    if (!currentLetterName) {
+        currentLetterName = 'letter_' + Date.now();
+    }
+    
+    // Save to localStorage
+    localStorage.setItem(`letter_${currentLetterName}`, JSON.stringify(letterData));
+}
+
 // Save letter styling
 function saveLetterStyling() {
-    // Save to localStorage for now
-    localStorage.setItem('letterData', JSON.stringify(letterData));
+    // Save letter data
+    saveLetterData();
     
     alert('Letter styling saved successfully');
 }
@@ -604,8 +767,7 @@ async function generateToken() {
 
 // Save letter data for a specific token
 function saveLetterForToken(token) {
-    // In a real application, this would save to the server
-    // For this client-side only app, we'll simulate this with localStorage
+    // Save current letter data for this token
     localStorage.setItem(`letter_${token}`, JSON.stringify(letterData));
 }
 
@@ -728,6 +890,9 @@ function importJSON() {
                 // Update section selects
                 updateSectionSelects();
                 
+                // Save letter data
+                saveLetterData();
+                
                 alert('Letter data imported successfully');
             } catch (error) {
                 console.error('Error importing JSON:', error);
@@ -739,32 +904,4 @@ function importJSON() {
     };
     
     input.click();
-}
-
-// Load letter data from localStorage
-function loadLetterData() {
-    try {
-        const savedData = localStorage.getItem('letterData');
-        
-        if (savedData) {
-            letterData = JSON.parse(savedData);
-            
-            // Create nodes for sections
-            Object.keys(letterData.sections).forEach(sectionId => {
-                createNodeForSection(sectionId);
-            });
-            
-            // Update form fields
-            document.getElementById('letter-title').value = letterData.title || '';
-            document.getElementById('letter-signature').value = letterData.signature || '';
-            document.getElementById('theme-select').value = letterData.config?.theme || 'elegant';
-            document.getElementById('text-size').value = letterData.config?.textSize || 'medium';
-            document.getElementById('custom-css').value = letterData.config?.customStyles || '';
-            
-            // Update section selects
-            updateSectionSelects();
-        }
-    } catch (error) {
-        console.error('Error loading letter data:', error);
-    }
 }

@@ -1,159 +1,134 @@
-// token-manager.js - Handles token creation, validation, and management
+// token-manager.js - Manages tokens for one-time use access to letters
 
 class TokenManager {
     constructor() {
-        this.tokensData = null;
-        this.usedTokens = [];
-        this.loadUsedTokens();
+        this.tokens = {};
     }
-
-    // Load tokens data from JSON file
+    
+    // Load tokens data from localStorage or server
     async loadTokensData() {
         try {
-            const response = await fetch('../data/tokens.json');
-            if (!response.ok) {
-                throw new Error('Failed to load tokens data');
+            // Try to load from localStorage first
+            const savedTokens = localStorage.getItem('letter_tokens');
+            
+            if (savedTokens) {
+                this.tokens = JSON.parse(savedTokens);
+            } else {
+                // Try to load from server
+                try {
+                    const response = await fetch('data/tokens.json');
+                    
+                    if (response.ok) {
+                        this.tokens = await response.json();
+                    } else {
+                        console.error('Error loading tokens from server');
+                        this.tokens = {};
+                    }
+                } catch (error) {
+                    console.error('Error loading tokens from server:', error);
+                    this.tokens = {};
+                }
             }
-            this.tokensData = await response.json();
-            return this.tokensData;
         } catch (error) {
-            console.error('Error loading tokens data:', error);
-            return null;
+            console.error('Error loading tokens:', error);
+            this.tokens = {};
         }
     }
-
-    // Load used tokens from localStorage
-    loadUsedTokens() {
-        try {
-            const storedTokens = localStorage.getItem('usedTokens');
-            this.usedTokens = storedTokens ? JSON.parse(storedTokens) : [];
-        } catch (error) {
-            console.error('Error loading used tokens:', error);
-            this.usedTokens = [];
-        }
-    }
-
-    // Save used tokens to localStorage
-    saveUsedTokens() {
-        try {
-            localStorage.setItem('usedTokens', JSON.stringify(this.usedTokens));
-        } catch (error) {
-            console.error('Error saving used tokens:', error);
-        }
-    }
-
-    // Validate a token
-    async validateToken(token) {
-        if (!this.tokensData) {
-            await this.loadTokensData();
-        }
-
-        // Check if token exists and is valid
-        if (!this.tokensData || !this.tokensData.tokens || !this.tokensData.tokens[token]) {
-            return { valid: false, reason: 'Token not found' };
-        }
-
-        const tokenData = this.tokensData.tokens[token];
-
-        // Check if token is marked as valid in the data
-        if (!tokenData.valid) {
-            return { valid: false, reason: 'Token is invalid' };
-        }
-
-        // Check if token has expired
-        if (tokenData.expires) {
-            const expiryDate = new Date(tokenData.expires);
-            if (expiryDate < new Date()) {
-                return { valid: false, reason: 'Token has expired' };
-            }
-        }
-
-        // Check if token has been used
-        if (this.usedTokens.includes(token)) {
-            return { valid: false, reason: 'Token has already been used' };
-        }
-
-        return { valid: true, tokenData };
-    }
-
-    // Mark a token as used
-    markTokenAsUsed(token) {
-        if (!this.usedTokens.includes(token)) {
-            this.usedTokens.push(token);
-            this.saveUsedTokens();
-            return true;
-        }
-        return false;
-    }
-
-    // Generate a new token (for editor use)
-    generateToken(letterName, creator = 'admin') {
-        // Generate a random token
-        const tokenChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let token = '';
-        for (let i = 0; i < 10; i++) {
-            token += tokenChars.charAt(Math.floor(Math.random() * tokenChars.length));
-        }
-
-        // Create token data
-        const now = new Date();
-        const expires = new Date();
-        expires.setMonth(expires.getMonth() + 1); // Default expiry: 1 month
-
-        const tokenData = {
-            valid: true,
-            created: now.toISOString(),
-            expires: expires.toISOString(),
-            creator,
-            letterName
-        };
-
-        // Add to tokens data
-        if (!this.tokensData) {
-            this.tokensData = { tokens: {} };
-        }
-        
-        this.tokensData.tokens[token] = tokenData;
-        
-        return { token, tokenData };
-    }
-
-    // Save tokens data (for editor use)
+    
+    // Save tokens data to localStorage
     async saveTokensData() {
         try {
-            // In a real application, this would make an API call to save to the server
-            // For this client-side only app, we'll simulate this with localStorage
-            localStorage.setItem('editorTokensData', JSON.stringify(this.tokensData));
+            localStorage.setItem('letter_tokens', JSON.stringify(this.tokens));
             return true;
         } catch (error) {
-            console.error('Error saving tokens data:', error);
+            console.error('Error saving tokens:', error);
             return false;
         }
     }
-
-    // Delete a token (for editor use)
-    deleteToken(token) {
-        if (this.tokensData && this.tokensData.tokens && this.tokensData.tokens[token]) {
-            delete this.tokensData.tokens[token];
+    
+    // Generate a new token
+    generateToken(letterName, creator) {
+        try {
+            // Generate a random token
+            const token = this.generateRandomToken();
+            
+            // Add token to tokens object
+            this.tokens[token] = {
+                letterName,
+                creator,
+                created: new Date().toISOString(),
+                used: false
+            };
+            
+            return {
+                token,
+                letterName,
+                creator
+            };
+        } catch (error) {
+            console.error('Error generating token:', error);
+            return null;
+        }
+    }
+    
+    // Generate a random token
+    generateRandomToken() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let token = '';
+        
+        // Generate a 10-character token
+        for (let i = 0; i < 10; i++) {
+            token += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        
+        return token;
+    }
+    
+    // Validate a token
+    validateToken(token) {
+        // Check if token exists
+        if (!this.tokens[token]) {
+            return false;
+        }
+        
+        // Check if token has been used
+        if (this.tokens[token].used) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    // Mark a token as used
+    markTokenAsUsed(token) {
+        if (this.tokens[token]) {
+            this.tokens[token].used = true;
+            this.tokens[token].usedDate = new Date().toISOString();
             return true;
         }
+        
         return false;
     }
-
-    // Get all tokens (for editor use)
-    getAllTokens() {
-        if (!this.tokensData || !this.tokensData.tokens) {
-            return {};
+    
+    // Delete a token
+    deleteToken(token) {
+        if (this.tokens[token]) {
+            delete this.tokens[token];
+            return true;
         }
-        return this.tokensData.tokens;
+        
+        return false;
     }
-
+    
+    // Get all tokens
+    getAllTokens() {
+        return this.tokens;
+    }
+    
     // Create a shareable link for a token
     createShareableLink(token) {
         const baseUrl = window.location.origin;
-        return `${baseUrl}/index.html?token=${token}`;
+        const path = window.location.pathname.replace(/\/[^\/]*$/, '/');
+        return `${baseUrl}${path}index.html?token=${token}`;
     }
 }
-
-// Export the TokenManager class
-window.TokenManager = TokenManager;
