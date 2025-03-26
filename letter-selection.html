@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Letter Selection</title>
+    <link rel="stylesheet" href="css/letter.css">
+    <link rel="stylesheet" href="css/editor.css">
+    <style>
+        .letter-selection-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--paper-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .letter-selection-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .letter-selection-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .letter-selection-header p {
+            color: #666;
+        }
+        
+        .letter-list {
+            margin-bottom: 30px;
+        }
+        
+        .letter-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .letter-info h3 {
+            margin: 0 0 5px 0;
+            color: var(--primary-color);
+        }
+        
+        .letter-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .letter-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .create-letter-btn-container {
+            text-align: center;
+        }
+        
+        .create-letter-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .create-letter-btn:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="letter-selection-container">
+        <div class="letter-selection-header">
+            <h1>Interactive Letter Selection</h1>
+            <p>Select a letter to edit or create a new one</p>
+        </div>
+        
+        <div id="letter-selection" class="letter-list">
+            <!-- Letter items will be dynamically added here -->
+        </div>
+        
+        <div class="create-letter-btn-container">
+            <button id="create-letter-btn" class="create-letter-btn">Create New Letter</button>
+        </div>
+    </div>
+
+    <script src="js/token-manager.js"></script>
+    <script src="js/editor.js"></script>
+</body>
+</html>

@@ -5,46 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Letter</title>
     <link rel="stylesheet" href="css/letter.css">
+    <style>
+        .token-entry-form {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: var(--paper-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .token-entry-form h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .form-group {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .token-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .token-submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .token-submit-btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .error-message {
+            color: #d9534f;
+            margin-top: 10px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .letter-summary {
+            background-color: var(--paper-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .summary-date {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        .summary-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .summary-actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .summary-button-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+    </style>
 </head>
-<body>
-    <div class="container">
-        <div id="token-validation" class="screen">
+<body class="theme-elegant">
+    <div class="letter-container" id="letter-container">
+        <div class="letter-header">
             <h1>Interactive Letter</h1>
-            <p id="token-message">Validating your access token...</p>
-            <div id="token-error" class="hidden">
-                <p>This letter is either invalid or has already been viewed.</p>
-                <p>Please check your URL or contact the sender for a new link.</p>
-            </div>
         </div>
-        
-        <div id="letter-content" class="screen hidden">
-            <div id="letter-header">
-                <h1 id="letter-title">Interactive Letter</h1>
-                <p id="letter-date"></p>
-            </div>
-            
-            <div id="letter-body">
-                <div id="current-section"></div>
-                
-                <div id="choices-container" class="hidden">
-                    <h3>What would you like to do?</h3>
-                    <div id="choices"></div>
-                </div>
-            </div>
-            
-            <div id="letter-footer">
-                <p id="letter-signature"></p>
-            </div>
-        </div>
-        
-        <div id="letter-complete" class="screen hidden">
-            <h1>Letter Complete</h1>
-            <p>Thank you for reading this interactive letter.</p>
-            <p>Your unique journey through this letter has been recorded.</p>
-            <div id="summary-container">
-                <h2>Your Journey Summary</h2>
-                <div id="summary-content"></div>
-            </div>
+        <div class="letter-loading">
+            <p>Loading letter...</p>
         </div>
     </div>
 
