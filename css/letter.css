@@ -1,15 +1,15 @@
-/* General Styles */
+/* letter.css - Styles for the interactive letter page */
+
 :root {
-    --primary-color: #4a6fa5;
-    --secondary-color: #166088;
-    --accent-color: #4fc3f7;
-    --text-color: #333;
-    --background-color: #f9f9f9;
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
     --paper-color: #fff;
-    --font-main: 'Georgia', serif;
-    --font-secondary: 'Arial', sans-serif;
+    --text-color: #333;
+    --border-color: #ddd;
+    --text-size: 1rem;
 }
 
+/* Base Styles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -17,203 +17,161 @@
 }
 
 body {
-    font-family: var(--font-main);
-    background-color: var(--background-color);
-    color: var(--text-color);
+    font-family: 'Georgia', serif;
     line-height: 1.6;
+    color: var(--text-color);
+    background-color: #f5f5f5;
     padding: 20px;
+    font-size: var(--text-size);
 }
 
-.container {
+/* Letter Container */
+.letter-container {
     max-width: 800px;
     margin: 0 auto;
     background-color: var(--paper-color);
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    min-height: 80vh;
-    position: relative;
 }
 
-.screen {
-    display: flex;
-    flex-direction: column;
-    min-height: 60vh;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Token Validation Screen */
-#token-validation {
-    justify-content: center;
-    align-items: center;
+/* Letter Header */
+.letter-header {
     text-align: center;
-}
-
-#token-message {
-    margin: 20px 0;
-    font-size: 1.2rem;
-}
-
-#token-error {
-    color: #d32f2f;
-    margin-top: 20px;
-}
-
-/* Letter Content Screen */
-#letter-header {
     margin-bottom: 30px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
 }
 
-#letter-title {
+.letter-header h1 {
     color: var(--primary-color);
-    margin-bottom: 10px;
+    font-size: 2em;
 }
 
-#letter-date {
-    font-style: italic;
-    color: #666;
-}
-
-#letter-body {
-    flex-grow: 1;
+/* Letter Content */
+.letter-content {
     margin-bottom: 30px;
 }
 
-#current-section {
-    margin-bottom: 30px;
-    font-size: 1.1rem;
-    line-height: 1.8;
+.letter-content p {
+    margin-bottom: 15px;
 }
 
-#choices-container {
+/* Letter Choices */
+.letter-choices {
     margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px dashed #ddd;
-}
-
-#choices {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 15px;
+    gap: 10px;
 }
 
 .choice-btn {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 12px 20px;
     border-radius: 4px;
     cursor: pointer;
-    font-family: var(--font-secondary);
     font-size: 1rem;
-    transition: background-color 0.3s, transform 0.2s;
-    text-align: left;
+    transition: background-color 0.3s;
 }
 
 .choice-btn:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-2px);
+    background-color: var(--secondary-color);
 }
 
-#letter-footer {
-    margin-top: auto;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-}
-
-#letter-signature {
-    font-style: italic;
+/* Letter Closing */
+.letter-closing {
+    margin-top: 40px;
     text-align: right;
-    font-size: 1.1rem;
 }
 
-/* Letter Complete Screen */
-#letter-complete {
-    justify-content: center;
-    align-items: center;
+.signature {
+    font-style: italic;
+    font-size: 1.2em;
+}
+
+/* Loading State */
+.letter-loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+/* Error Message */
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
-#summary-container {
-    margin-top: 40px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    text-align: left;
+.error-message h2 {
+    margin-bottom: 10px;
 }
 
-#summary-content {
-    margin-top: 20px;
+.error-message button {
+    margin-top: 15px;
 }
 
-.summary-section {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px dashed #ddd;
+/* Button Styles */
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
 }
 
-.summary-section:last-child {
-    border-bottom: none;
+.btn:hover {
+    background-color: var(--secondary-color);
 }
 
-/* Responsive Design */
+/* Themes */
+.theme-elegant {
+    --primary-color: #3498db;
+    --secondary-color: #2980b9;
+    --paper-color: #fff;
+    --text-color: #333;
+    --border-color: #ddd;
+}
+
+.theme-modern {
+    --primary-color: #9b59b6;
+    --secondary-color: #8e44ad;
+    --paper-color: #fff;
+    --text-color: #333;
+    --border-color: #eee;
+}
+
+.theme-vintage {
+    --primary-color: #d35400;
+    --secondary-color: #e67e22;
+    --paper-color: #f9f4e7;
+    --text-color: #5d4037;
+    --border-color: #d7ccc8;
+}
+
+.theme-minimal {
+    --primary-color: #34495e;
+    --secondary-color: #2c3e50;
+    --paper-color: #ecf0f1;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-    .container {
+    .letter-container {
         padding: 20px;
     }
     
     body {
         padding: 10px;
     }
-    
-    #letter-title {
-        font-size: 1.5rem;
-    }
-    
-    .choice-btn {
-        padding: 15px;
-    }
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
-}
-
-/* Custom styling classes that can be applied via the editor */
-.elegant {
-    --font-main: 'Garamond', serif;
-    --primary-color: #3a5683;
-    --paper-color: #fffef7;
-}
-
-.modern {
-    --font-main: 'Helvetica', sans-serif;
-    --primary-color: #2c3e50;
-    --paper-color: #ffffff;
-}
-
-.vintage {
-    --font-main: 'Times New Roman', serif;
-    --paper-color: #f8f3e3;
-    --primary-color: #8b4513;
-}
-
-.text-large {
-    font-size: 1.2rem;
-}
-
-.text-small {
-    font-size: 0.9rem;
 }
